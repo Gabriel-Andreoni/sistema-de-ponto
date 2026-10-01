@@ -3,18 +3,19 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SubmitEvent } from "react";
-import { signUp } from "../actions/sign-up";
+import { signUpAction } from "../actions/sign-up";
 
 export default function signup() {
     async function onSubmit(event:SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
-        await signUp(
-            formData.get("user-email") as string,
-            formData.get("user-email") as string,
-            formData.get("user-password") as string
-        );
+        
+        const email = String(formData.get("user-email"));
+        const name = String(formData.get("user-name"));
+        const password = String(formData.get("user-password"))
+
+        await signUpAction(email, name, password);
     }
 
     return (

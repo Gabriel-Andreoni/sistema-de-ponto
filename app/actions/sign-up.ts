@@ -2,28 +2,23 @@
 
 import { authClient } from "../lib/auth-client";
 
-export async function signUp(
+export async function signUpAction(
     email:string,
-    password:string,
-    name:string
+    name:string,
+    password:string
 ):Promise<void> {
-    const {data, error} = await authClient.signUp.email({
-        email: email,
-        password: password,
-        name: name,
+    const {error} = await authClient.signUp.email({
+        email,
+        name,
+        password,
         callbackURL: "/"
-    }, {
-        onRequest: (ctx) => {
-            alert("Conferindo tudo...")
-        },
-
-        onSuccess: (ctx) => {
-            console.log(data)
-            alert("Deu certo")
-        }, 
-
-        onError: (ctx) => {
-            alert("Algo deu errado")
-        }
     })
+
+    if(error) {
+        console.log(error.message)
+    }
+
+    if(!error) {
+        console.log("Deu tudo certo")
+    }
 }
