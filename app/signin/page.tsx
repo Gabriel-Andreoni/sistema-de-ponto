@@ -1,34 +1,62 @@
+"use client"
+
 import Image from "next/image";
 import Link from "next/link";
+import { SubmitEvent } from "react";
+import { authClient } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function signin() {
+    const router = useRouter();
+    async function handleSignin(event: SubmitEvent<HTMLFormElement>) {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+
+        const email = String(formData.get("user-email"));
+        const password = String(formData.get("user-password"));
+
+        const {error} = await authClient.signIn.email({
+            email,
+            password,
+        })
+
+        if(error) {
+            return alert(error.message)
+        }
+
+        router.push("/")
+        
+    }
+    
     return (
         <main className="relative isolate min-h-dvh w-full grid place-items-center items-center overflow-hidden bg-[url(/login-waves.png)] bg-no-repeat bg-cover bg-center">
             <div className="w-4/12 h-8/12 bg-white rounded-xl">
                 <form
                     className="w-full h-full p-4 flex flex-col gap-2 justify-center items-center"
+                    onSubmit={handleSignin}
                 >
                     <div className="w-full flex flex-col">
                         <label
-                            htmlFor="name"
+                            htmlFor="email"
                             className="mb-2 text-black"
-                        >Nome de Usuário ou E-mail</label>
+                        >E-mail</label>
                         <input
-                            type="text"
-                            name="user-name"
-                            id="name"
+                            type="email"
+                            name="user-email"
+                            id="email"
                             className="w-full p-4 border border-green-500 rounded-lg text-black outline-none"
                         />
                     </div>
                     <div className="w-full flex flex-col">
                         <label
-                            htmlFor="name"
+                            htmlFor="password"
                             className="mb-2 text-black"
                         >Senha</label>
                         <input
                             type="password"
-                            name="user-name"
-                            id="name"
+                            name="user-password"
+                            id="password"
                             className="w-full p-4 border border-green-500 rounded-lg text-black outline-none"
                         />
                     </div>
