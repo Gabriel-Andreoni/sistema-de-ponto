@@ -3,19 +3,32 @@
 import Image from "next/image";
 import Link from "next/link";
 import { SubmitEvent } from "react";
-import { signUpAction } from "../actions/sign-up";
+import { authClient } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function signup() {
-    async function onSubmit(event:SubmitEvent<HTMLFormElement>) {
+    const router = useRouter();
+
+    async function onSubmit(event: SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
 
         const formData = new FormData(event.currentTarget);
-        
+
         const email = String(formData.get("user-email"));
         const name = String(formData.get("user-name"));
         const password = String(formData.get("user-password"))
 
-        await signUpAction(email, name, password);
+        const { error } = await authClient.signUp.email({
+            email,
+            name,
+            password,
+        })
+
+        if (error) {
+            console.log(error.message)
+        }
+
+        router.push("/")
     }
 
     return (
