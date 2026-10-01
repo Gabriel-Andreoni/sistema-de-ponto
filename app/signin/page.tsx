@@ -57,7 +57,7 @@ export default function signin() {
                     </div>
 
                     <div className="w-full mt-4 flex justify-center items-center">
-                        <h6 className="text-black">Novo por aqui? <Link href="#" className="text-blue-500">Crie uma conta</Link></h6>
+                        <h6 className="text-black">Novo por aqui? <Link href="/signup" className="text-blue-500">Crie uma conta</Link></h6>
                     </div>
                 </form>
             </div>

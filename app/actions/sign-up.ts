@@ -1,3 +1,5 @@
+"use server"
+
 import { authClient } from "../lib/auth-client";
 
 export async function signUp(
@@ -12,16 +14,16 @@ export async function signUp(
         callbackURL: "/"
     }, {
         onRequest: (ctx) => {
-
+            alert("Conferindo tudo...")
         },
 
         onSuccess: (ctx) => {
             console.log(data)
+            alert("Deu certo")
         }, 
 
         onError: (ctx) => {
-            alert(ctx.error.message)
-            alert(error?.message)
+            alert("Algo deu errado")
         }
     })
 }
